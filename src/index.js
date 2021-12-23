@@ -1,10 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App.jsx";
 
 // Import ThirdWeb
-import { ThirdwebWeb3Provider } from '@3rdweb/hooks';
+import { ThirdwebWeb3Provider } from "@3rdweb/hooks";
 
 // Include what chains you wanna support.
 // 4 = Rinkeby.
@@ -28,5 +28,5 @@ ReactDOM.render(
       </div>
     </ThirdwebWeb3Provider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
