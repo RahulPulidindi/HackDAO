@@ -10,7 +10,7 @@ const sdk = new ThirdwebSDK("rinkeby");
 
 // We can grab a reference to our ERC-1155 contract.
 const bundleDropModule = sdk.getBundleDropModule(
-  "0x1819F0e72C9e793197bf728225e22c20B332A9B1",
+  "0x1819F0e72C9e793197bf728225e22c20B332A9B1"
 );
 
 const tokenModule = sdk.getTokenModule(
@@ -18,16 +18,16 @@ const tokenModule = sdk.getTokenModule(
 );
 
 const voteModule = sdk.getVoteModule(
-  "0x5e6A8966a9101329F06d8cf9dB32397DB18a5711",
+  "0x5e6A8966a9101329F06d8cf9dB32397DB18a5711"
 );
 
 const App = () => {
-  const privateKey = process.env['PRIVATE_KEY']
-  const walletAddress = process.env['WALLET_ADDRESS']
-  const alchemyURL = process.env['ALCHEMY_API_URL']
+  const privateKey = process.env.PRIVATE_KEY;
+  const walletAddress = process.env.WALLET_ADDRESS;
+  const alchemyURL = process.env.ALCHEMY_API_URL;
   // Use the connectWallet hook thirdweb gives us.
   const { connectWallet, address, error, provider } = useWeb3();
-  console.log("👋 Address:", address)
+  console.log("👋 Address:", address);
 
   // The signer is required to sign transactions on the blockchain.
   // Without it we can only read data, not write.
@@ -48,12 +48,12 @@ const App = () => {
   const [isVoting, setIsVoting] = useState(false);
   const [hasVoted, setHasVoted] = useState(false);
 
-  // A fancy function to shorten someones wallet address, no need to show the whole thing. 
+  // A fancy function to shorten someones wallet address, no need to show the whole thing.
   const shortenAddress = (str) => {
     return str.substring(0, 6) + "..." + str.substring(str.length - 4);
   };
 
-    // Retreive all our existing proposals from the contract.
+  // Retreive all our existing proposals from the contract.
   useEffect(() => {
     if (!hasClaimedNFT) {
       return;
@@ -64,7 +64,7 @@ const App = () => {
       .then((proposals) => {
         // Set state!
         setProposals(proposals);
-        console.log("🌈 Proposals:", proposals)
+        console.log("🌈 Proposals:", proposals);
       })
       .catch((err) => {
         console.error("failed to get proposals", err);
@@ -88,7 +88,7 @@ const App = () => {
       .hasVoted(proposals[0].proposalId, address)
       .then((hasVoted) => {
         setHasVoted(hasVoted);
-        console.log("🥵 User has already voted")
+        console.log("🥵 User has already voted");
       })
       .catch((err) => {
         console.error("failed to check if wallet has voted", err);
@@ -100,13 +100,13 @@ const App = () => {
     if (!hasClaimedNFT) {
       return;
     }
-    
+
     // Just like we did in the 7-airdrop-token.js file! Grab the users who hold our NFT
     // with tokenId 0.
     bundleDropModule
       .getAllClaimerAddresses("0")
       .then((addresess) => {
-        console.log("🚀 Members addresses", addresess)
+        console.log("🚀 Members addresses", addresess);
         setMemberAddresses(addresess);
       })
       .catch((err) => {
@@ -124,7 +124,7 @@ const App = () => {
     tokenModule
       .getAllHolderBalances()
       .then((amounts) => {
-        console.log("👜 Amounts", amounts)
+        console.log("👜 Amounts", amounts);
         setMemberTokenAmounts(amounts);
       })
       .catch((err) => {
@@ -141,7 +141,7 @@ const App = () => {
           // If the address isn't in memberTokenAmounts, it means they don't
           // hold any of our token.
           memberTokenAmounts[address] || 0,
-          18,
+          18
         ),
       };
     });
@@ -159,7 +159,7 @@ const App = () => {
     if (!address) {
       return;
     }
-    
+
     // Check if the user has the NFT by using bundleDropModule.balanceOf
     return bundleDropModule
       .balanceOf(address, "0")
@@ -167,10 +167,10 @@ const App = () => {
         // If balance is greater than 0, they have our NFT!
         if (balance.gt(0)) {
           setHasClaimedNFT(true);
-          console.log("🌟 this user has a membership NFT!")
+          console.log("🌟 this user has a membership NFT!");
         } else {
           setHasClaimedNFT(false);
-          console.log("😭 this user doesn't have a membership NFT.")
+          console.log("😭 this user doesn't have a membership NFT.");
         }
       })
       .catch((error) => {
@@ -184,8 +184,8 @@ const App = () => {
       <div className="unsupported-network">
         <h2>Please connect to Rinkeby</h2>
         <p>
-          This dapp only works on the Rinkeby network, please switch networks
-          in your connected wallet.
+          This dapp only works on the Rinkeby network, please switch networks in
+          your connected wallet.
         </p>
       </div>
     );
@@ -197,7 +197,9 @@ const App = () => {
     return (
       <div className="landing">
         <h1>Welcome to HackDAO!</h1>
-        <h3 style={{marginBottom: "64px"}}>This is a community for building cool shit together.</h3>
+        <h3 style={{ marginBottom: "64px" }}>
+          This is a community for building cool shit together.
+        </h3>
         <button onClick={() => connectWallet("injected")} className="btn-hero">
           Connect your wallet
         </button>
@@ -210,7 +212,7 @@ const App = () => {
   if (hasClaimedNFT) {
     return (
       <div className="member-page">
-        <h1 style={{color: "#fff"}}>HackDAO Member Page</h1>
+        <h1 style={{ color: "#fff" }}>HackDAO Member Page</h1>
         <h3>HackDAO is a community for building cool shit together.</h3>
         <h4>🌟 Thanks for being a member!</h4>
         <div>
@@ -350,8 +352,8 @@ const App = () => {
                 {isVoting
                   ? "Voting..."
                   : hasVoted
-                    ? "You Already Voted"
-                    : "Submit Votes"}
+                  ? "You Already Voted"
+                  : "Submit Votes"}
               </button>
               <small>
                 This will trigger multiple transactions that you will need to
@@ -362,37 +364,34 @@ const App = () => {
         </div>
       </div>
     );
-  };
+  }
 
   const mintNft = () => {
     setIsClaiming(true);
     // Call bundleDropModule.claim("0", 1) to mint nft to user's wallet.
     bundleDropModule
-    .claim("0", 1)
-    .catch((err) => {
-      console.error("failed to claim", err);
-      setIsClaiming(false);
-    })
-    .finally(() => {
-      // Stop loading state.
-      setIsClaiming(false);
-      // Set claim state.
-      setHasClaimedNFT(true);
-      // Show user their fancy new NFT!
-      console.log(
-        `🌊 Successfully Minted! Check it out on OpenSea: https://testnets.opensea.io/assets/${bundleDropModule.address}/0`
-      );
-    });
-  }
-  
+      .claim("0", 1)
+      .catch((err) => {
+        console.error("failed to claim", err);
+        setIsClaiming(false);
+      })
+      .finally(() => {
+        // Stop loading state.
+        setIsClaiming(false);
+        // Set claim state.
+        setHasClaimedNFT(true);
+        // Show user their fancy new NFT!
+        console.log(
+          `🌊 Successfully Minted! Check it out on OpenSea: https://testnets.opensea.io/assets/${bundleDropModule.address}/0`
+        );
+      });
+  };
+
   // Render mint nft screen.
   return (
     <div className="mint-nft">
       <h1>Mint your free HackDAO Membership NFT</h1>
-      <button
-        disabled={isClaiming}
-        onClick={() => mintNft()}
-      >
+      <button disabled={isClaiming} onClick={() => mintNft()}>
         {isClaiming ? "Minting..." : "Mint your nft (FREE)"}
       </button>
     </div>
