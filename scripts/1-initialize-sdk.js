@@ -1,24 +1,26 @@
 import { ThirdwebSDK } from "@3rdweb/sdk";
 import ethers from "ethers";
-
-//Importing and configuring our .env file that we use to securely store our environment variables
 import dotenv from "dotenv";
 dotenv.config();
+
+// Importing and configuring our .env file that we use to securely store our environment variables
+// import dotenv from "dotenv";
+// dotenv.config();
 
 const privateKey = process.env.PRIVATE_KEY;
 const walletAddress = process.env.WALLET_ADDRESS;
 const alchemyURL = process.env.ALCHEMY_API_URL;
 
 // Some quick checks to make sure our .env is working.
-if (!privateKey || privateKey == "") {
+if (!privateKey || privateKey === "") {
   console.log("🛑 Private key not found.");
 }
 
-if (!alchemyURL || alchemyURL == "") {
+if (!alchemyURL || alchemyURL === "") {
   console.log("🛑 Alchemy API URL not found.");
 }
 
-if (!walletAddress || walletAddress == "") {
+if (!walletAddress || walletAddress === "") {
   console.log("🛑 Wallet Address not found.");
 }
 
